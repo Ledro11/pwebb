@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <button onclick="iniciarJogo()">Começar o jogo</button>   
+</body> 
+
+<script>
+    function escolhaUsuario() {
+        let escolha = prompt("Escolha Pedra, Papel ou Tesoura (ou digite 'encerrar' para sair):");
+        return escolha.toLowerCase();
+    }
+
+    function escolhaPC() {
+        let opcoes = ["pedra", "papel", "tesoura"];
+        let num = Math.floor(Math.random() * 3);
+        return opcoes[num];
+    }
+
+    function resultado(usuario, pc) {
+        if (usuario == pc) {
+            return "Empate!";
+        }
+        if ((usuario == "pedra" && pc == "tesoura") || (usuario == "papel" && pc == "pedra") || (usuario == "tesoura" && pc == "papel")) {
+            return "Você ganhou!";
+        } 
+        else {
+            return "O computador ganhou!";
+        }
+    }
+
+    function iniciarJogo() {
+        while (true) {
+            let escolhaUser = escolhaUsuario();
+
+            if (escolhaUser == "encerrar") {
+                alert("Jogo encerrado. Obrigado por jogar!");
+                break;
+            }
+
+            if (escolhaUser == "pedra" || escolhaUser == "papel" || escolhaUser == "tesoura") {
+                let escolhaComp = escolhaPC();
+                let result = resultado(escolhaUser, escolhaComp);
+                alert("Você escolheu: " + escolhaUser + "\n" + "O computador escolheu: " + escolhaComp + "\n" + result);
+            } 
+            else {
+                alert("Escolha inválida. Tente novamente.");
+            }
+        }
+    }
+</script>
+</html>
