@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <button onclick="comecarJogo()">Começar o jogo da forca</button>  
+    <p id="palavraTela"></p>
+    <p id="infoErros"></p>
+    <p id="msgFinal"></p>
+</body>
+
+<script>
+    let listaPalavras = [
+        "sol","lua","estrela","montanha","rio","floresta",
+        "mar","vento","fogo","terra","ceu","chuva",
+        "neve","areia","rocha","campo","folha","raiz",
+        "nuvem","luz"
+    ];
+
+    function comecarJogo() {
+        while (true) {
+            novaRodada();
+
+            let resposta = prompt("Quer jogar de novo? (sim / não)");
+            if (!resposta || resposta.toLowerCase() != "sim") {
+                alert("Jogo encerrado. Obrigado por jogar!");
+                break;
+            }
+        }
+    }
+
+    function novaRodada() {
+        let palavra = listaPalavras[Math.floor(Math.random() * listaPalavras.length)];
+        let exibicao = "_".repeat(palavra.length).split("");
+        let letrasTentadas = [];
+        let erros = 0;
+        let limiteErros = 6;
+
+        atualizarTela(exibicao, erros, limiteErros, "");
+
+        while (erros < limiteErros && temTraco(exibicao)) {
+            let mostrarPalavra = exibicao.join(" ");
+            let mostrarTentadas = letrasTentadas.join(", ");
+
+            let letra = prompt("Digite uma letra.\n\nPalavra: " + mostrarPalavra +
+                               "\nTentativas: " + mostrarTentadas +
+                               "\nErros restantes: " + (limiteErros - erros));
+
+            if (!letra) {
+                alert("Digite algo.");
+                continue;
+            }
+
+            letra = letra.toLowerCase();
+
+            if (letra.length != 1 || (letra < "a" || letra > "z")) {
+                alert("Digite apenas UMA letra.");
+                continue;
+            }
+
+            if (jaTentou(letrasTentadas, letra)) {
+                alert("Você já tentou essa letra.");
+                continue;
+            }
+
+            letrasTentadas.push(letra);
+
+            if (temNaPalavra(palavra, letra)) {
+                for (let i = 0; i < palavra.length; i++) {
+                    if (palavra[i] == letra) {
+                        exibicao[i] = letra;
+                    }
+                }
+            } else {
+                erros++;
+            }
+
+            atualizarTela(exibicao, erros, limiteErros, "");
+        }
+
+        if (!temTraco(exibicao)) {
+            atualizarTela(exibicao, erros, limiteErros, "Você venceu! A palavra era: " + palavra);
+        } else {
+            atualizarTela(exibicao, erros, limiteErros, "Você perdeu! A palavra era: " + palavra);
+        }
+    }
+
+    function temTraco(exibicao) {
+        for (let i = 0; i < exibicao.length; i++) {
+            if (exibicao[i] == "_") {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function jaTentou(tentadas, letra) {
+        for (let i = 0; i < tentadas.length; i++) {
+            if (tentadas[i] == letra) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function temNaPalavra(palavra, letra) {
+        for (let i = 0; i < palavra.length; i++) {
+            if (palavra[i] == letra) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function atualizarTela(exibicao, erros, limiteErros, mensagem) {
+        document.getElementById("palavraTela").textContent = exibicao.join(" ");
+        document.getElementById("infoErros").textContent = "Erros: " + erros + " / " + limiteErros;
+        document.getElementById("msgFinal").textContent = mensagem;
+    }
+</script>
+</html>
