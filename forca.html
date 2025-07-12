@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <button onclick="comecarJogo()">Começar o jogo da forca</button>  
+    <button onclick="comecarJogo()">Começar</button>  
     <p id="palavraTela"></p>
     <p id="infoErros"></p>
     <p id="msgFinal"></p>
@@ -12,10 +12,7 @@
 
 <script>
     let listaPalavras = [
-        "sol","lua","estrela","montanha","rio","floresta",
-        "mar","vento","fogo","terra","ceu","chuva",
-        "neve","areia","rocha","campo","folha","raiz",
-        "nuvem","luz"
+        "sol","lua","estrela","montanha","rio","floresta","mar","vento","fogo","terra","ceu","chuva","neve","areia","rocha","campo","folha","raiz","nuvem","luz"
     ];
 
     function comecarJogo() {
@@ -81,8 +78,10 @@
 
         if (!temTraco(exibicao)) {
             atualizarTela(exibicao, erros, limiteErros, "Você venceu! A palavra era: " + palavra);
+            alert("Você venceu! A palavra era: " + palavra);
         } else {
             atualizarTela(exibicao, erros, limiteErros, "Você perdeu! A palavra era: " + palavra);
+            alert("Você perdeu! A palavra era: " + palavra);
         }
     }
 
@@ -120,3 +119,4 @@
     }
 </script>
 </html>
+
